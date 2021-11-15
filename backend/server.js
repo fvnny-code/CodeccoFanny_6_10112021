@@ -1,6 +1,8 @@
 const http = require("http");
 const app = require("./app");
 
+app.set('port', process.env.PORT || 3001);
+
 // la fonction renvoie un port valide, sous forme de numéro ou de chaîne de caractères.
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
@@ -14,13 +16,13 @@ const normalizePort = (val) => {
   return false;
 };
 //Si le port défini par défaut n'est pas accessible, utiliser le port 3000
-const port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(process.env.PORT || "3001");
 app.set("port", port);
 
 // la fonction recherche les différentes erreurs et les génère de manière appropriée. Elle est ensuite enregistrée dans le serveur.
 const errorHandler = (error) => {
   if (error.syscall != "listen") {
-    throw error;
+    throw error;""
   }
   const address = server.address();
   const bind = typeof address === "string" ? "pipe" + address : "port: " + port;
