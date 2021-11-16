@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 
 const Sauce = require('./models/sauce');
+const { updateOne } = require("./models/sauce");
+const sauce = require("./models/sauce");
 
 const app = express();
 
@@ -37,12 +39,28 @@ sauce.save()
 .catch(error =>res.status(400).json ({error}));
 });
 
+//modification d'une sauce
+app.put('/models/sauce/:id', (req, res, next)=>{
+  Sauce.updateOne({_id: req.params.id}, {...req.body, _id: req.params.id})
+  .then(()=> res.status(200).json({message: 'Objet modifié! '}))
+  .catch(error => res.status(400).json({error}));
+});
+
+// Suppression d'un sauce
+app.delete('/models/sauce/:id', (req, res, next)=>{
+  sauce.deleteOne({_id: req.params.id})
+  .then(()=>res.status(200).json({message: 'Objet supprimé !'}))
+  .catch(error => res.status(400).json({error}));
+});
+
+// récupération d'une sauce spécifique
 app.get('/models/sauce/:id', (req, res, next)=>{
   Sauce.findOne({_id: req.params.id})
   .then(thing =>res.status(200).json(sauce))
   .catch(error => res.status(404).json({error}));
 });
 
+// récupération de la liste des sauces
 app.get('/models/sauce', (req, res, next)=> {
   Sauce.find()
   .then(sauces => res.status(200).json(sauces))
