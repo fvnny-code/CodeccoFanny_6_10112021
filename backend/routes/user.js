@@ -2,7 +2,6 @@
 const express = require('express');
 //appel du routeur express
 const router = express.Router();
-
 // importation du userController
 const userController = require('../controllers/user');
 

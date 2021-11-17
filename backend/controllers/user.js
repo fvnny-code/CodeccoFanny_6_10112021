@@ -1,7 +1,13 @@
+const bcrypt = require ('bcrypt');
+const jsonWebToken = require('jsonwebtoken');
+
+// crétion d'un utilisateur
+const User = require('../models/User');
+
 // middleware pour créer un nouvel utilisateur
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
-    .then((hash) => {
+    .then(hash => {
       const user = new User({
         email: req.body.email,
         password: hash,
@@ -12,21 +18,25 @@ exports.signup = (req, res, next) => {
     })
     .catch((error) => res.status(500).json({ error }));
 };
-// middleware pour la connexion d'un utilisateur déjà enregistré dans la base de donnée
+// middleware pour la connexion d'un utilisateur déjà enregistré dans la base de données
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
-    .then((user) => {
+    .then(user => {
       if (!user) {
         return res.status(401).json({ error: "Utilisateur non trouvé" });
       }
       bcrypt.compare(req.body.password, user.password)
-        .then((valid) => {
+        .then(valid => {
           if (!valid) {
             return res.status(401).json({ error: "Mot de passe non valide" });
           }
           res.status(200).json({
             userId: user._id,
-            token: "TOKEN",
+            token: jsonWebToken.sign(
+                {userId: user._id},
+                'RANDOM_TOKEN_SECRET',
+                {expiresIn: '24h'}
+            )
           });
         })
         .catch((error) => res.status(500).json({ error }));
