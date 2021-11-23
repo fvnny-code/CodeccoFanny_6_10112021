@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const cors = require('cors');
 const path = require('path');
 
 const SaucesRoutes = require("./routes/sauces");
@@ -23,6 +24,14 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
+
+// app.use(cors({
+//   origin: '*',
+//   methods : ['GET','POST','DELETE','UPDATE','PUT','PATCH', 'OPTIONS']
+// }));
+
+
+
 app.use(bodyParser.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
