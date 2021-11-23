@@ -1,12 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const Sauce = require("../models/Sauce");
+const auth = require('../middelware/auth')
+const multer = require('../middelware/multer-config');
+
 
 const sauceController = require("../controllers/sauces");
-const auth = require('../middelware/auth')
+
 
 //création d'une sauce
-router.post("/", auth, sauceController.createSauce);
+router.post("/", auth, multer, sauceController.createSauce);
 //modification d'une sauce
 router.put("/:id", auth, sauceController.modifySauce);
 // Suppression d'un sauce
