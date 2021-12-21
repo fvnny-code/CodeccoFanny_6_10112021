@@ -51,5 +51,5 @@ server.on("listening", () => {
   console.log("Listening on " + bind);
 });
 
-// Le serveur écouter sur le pot défini au dessus.
+// Le serveur écoute sur le port défini au dessus.
 server.listen(port);
