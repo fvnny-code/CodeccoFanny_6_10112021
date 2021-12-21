@@ -7,6 +7,10 @@ const express = require("express");
 const mongoose = require('mongoose');
 //Import de bodyParser : extraction des objets JSON depuis une requête POST
 const bodyParser = require("body-parser");
+
+// Import helmet : sécurise les requêtes HTTP, et les failles XSS(cross-site scripting), prévient du détournement de clics (clickjacking), protège contre le reniflement de TYPE MIME(snifing).
+const helmet =require("helmet");
+
 //import des routes vers les sauces
 const SaucesRoutes = require("./routes/sauces");
 //import des routes utilisateurs
@@ -14,22 +18,17 @@ const userRoutes = require('./routes/user');
 //Gestion des paths des fichiers et dossiers
 const path = require('path');
 
-// import du pack CORS pour la gestion des Cross Origins Ressource Sharing
-// devenu inutile après mise à jour de Angular et nodeJS
-// const cors = require('cors');
-// app.use(cors());
+const app = express();
 
 // connexion à la base de données
 const DB_URI = process.env.DB_URI;
 mongoose.connect(
     `${DB_URI}`, 
-    { useNewUrlParser: true, useUnifiedTopology: true }
+    { useNewUrlParser: true, 
+      useUnifiedTopology: true }
     )
   .then(() => console.log("Connexion à la base de données réussie !"))
   .catch((error) => console.log("La connexion à la base de données a échoué !"));
-
-
-const app = express();
 
 //  Gestion du Cross Origins Ressource Sharing
 app.use((req, res, next) => {
@@ -38,12 +37,18 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
-
 //Transforme les données de la requête POST en JSON
 app.use(bodyParser.json());
+
+//Mise en place de la protection X-XSS, avec l'activation de filtres de scripts intersites (XSS) dans les navigateurs.
+app.use(helmet());
+
+
 // ROUTES
-app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/sauces', SaucesRoutes);
 app.use('/api/auth', userRoutes);
+// Gestion des images
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 
 module.exports = app;
