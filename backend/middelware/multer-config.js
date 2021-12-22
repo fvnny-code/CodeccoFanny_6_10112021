@@ -1,3 +1,4 @@
+// gestion des fichiers : téléchargement d'images.
 const multer = require('multer');
 
 const MIME_TYPES = {
@@ -6,6 +7,7 @@ const MIME_TYPES = {
      'image/png' : 'png'
 };
 
+// configuration du chemin de stockage des fichiers entrants.
 const storage = multer.diskStorage ({
     destination: (req, file, callback) => {
         callback(null, 'images')
@@ -17,4 +19,5 @@ const storage = multer.diskStorage ({
     }
 });
 
+//capture les images.
 module.exports = multer({ storage}).single('image');
