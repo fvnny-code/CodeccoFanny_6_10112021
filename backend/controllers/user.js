@@ -1,7 +1,7 @@
 const bcrypt = require ('bcrypt');
 const jsonWebToken = require('jsonwebtoken');
 
-// crétion d'un utilisateur
+// création d'un utilisateur
 const User = require('../models/User');
 
 // middleware pour créer un nouvel utilisateur
