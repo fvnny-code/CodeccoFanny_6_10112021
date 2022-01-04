@@ -10,6 +10,8 @@ const bodyParser = require("body-parser");
 
 // Import helmet : sécurise les requêtes HTTP, et les failles XSS(cross-site scripting), prévient du détournement de clics (clickjacking), protège contre le reniflement de TYPE MIME(snifing).
 const helmet =require("helmet");
+// Import nocache : desactive la mise en cache du navigateur
+const nocache = require("nocache");
 
 //import des routes vers les sauces
 const SaucesRoutes = require("./routes/sauces");
@@ -43,6 +45,8 @@ app.use(bodyParser.json());
 //Mise en place de la protection X-XSS, avec l'activation de filtres de scripts intersites (XSS) dans les navigateurs.
 app.use(helmet());
 
+// désactivation de la mise en cache du navigateur
+app.use(nocache());
 
 // ROUTES
 app.use('/api/sauces', SaucesRoutes);
