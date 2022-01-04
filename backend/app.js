@@ -51,7 +51,7 @@ app.use(nocache());
 // ROUTES
 app.use('/api/sauces', SaucesRoutes);
 app.use('/api/auth', userRoutes);
-// Gestion des images
+// Gestion du routage des images
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 

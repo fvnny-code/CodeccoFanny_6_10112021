@@ -13,11 +13,11 @@ const storage = multer.diskStorage ({
         callback(null, 'images')
     },
     filename: (req, file, callback) =>{
-       const name = file.originalname.split(' ').join('_');
-       const extension = MIME_TYPES[file.mimetype];
+       const name = file.originalname.split(' ').join('_'); // élimination d'eventuels espaces dans le nom du fichier original, et remplacement par des underscore
+       const extension = MIME_TYPES[file.mimetype]; // génèrer l'extension du nom du fichier à partir du dictionnaire MIME_TYPES.
        callback(null, name + Date.now() + '.' + extension);
     }
 });
 
-//capture les images.
+//capture des images et enregistrement dans le système de fichiers du serveur, grâce à storage configuré.
 module.exports = multer({ storage}).single('image');
