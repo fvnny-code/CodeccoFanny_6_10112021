@@ -54,6 +54,11 @@ Front-end :
 * Cloner le repository dont le lien est fourni ci-dessus.
 * Suivre les instructions du README.
 
+À NOTER :
+Le front-end utilise des versions anciennes de NodeJS.
+
+Si des problèmes d'installation sont rencontrés, la version 11.15.0 de NodeJS fonctionne également pour ce projet.
+
 Back-end :
 
 * Cloner ce repository.
